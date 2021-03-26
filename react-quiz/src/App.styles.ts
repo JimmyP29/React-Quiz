@@ -34,6 +34,7 @@ export const Wrapper = styled.div`
         color: #fff;
         font-size: 2rem;
         margin: 0;
+        text-shadow: 4px 3px 2px rgb(0 0 0 / 45%);
     }
 
     h1 {
