@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+
 import QuestionCard from './components/QuestionCard';
 import { fetchQuizQuestions, Difficulty, QuestionState } from './API';
 import { GlobalStyle, Wrapper } from './App.styles';
+import { useAppSelector, useAppDispatch } from './redux/hooks';
+import { setScore } from './redux/quiz'
 
 export type AnswerState = {
   question: string;
@@ -17,10 +20,11 @@ const App = () => {
   const [questions, setQuestions] = useState<QuestionState[]>([]);
   const [number, setNumber] = useState(0);
   const [userAnswers, setUserAnswers] = useState<AnswerState[]>([]);
-  const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
 
-  console.log(questions);
+  // score now retrieved from the redux store
+  const { score } = useAppSelector((state) => state.quiz);
+  const dispatch = useAppDispatch();
 
   const startTrivia = async () => {
     setLoading(true);
@@ -32,7 +36,6 @@ const App = () => {
     );
 
     setQuestions(newQuestions);
-    setScore(0);
     setUserAnswers([]);
     setNumber(0);
     setLoading(false);
@@ -46,8 +49,8 @@ const App = () => {
       // Check answer against the correct answer
       const isCorrect = questions[number].correct_answer === answer;
 
-      // Add score if answer is correct
-      if (isCorrect) setScore(prev => prev + 1);
+      // Add score if answer is correct (now added to the Redux store)
+      if (isCorrect) dispatch(setScore(1))
 
       // Save answer in the array for user answers
       const answerObject = {
