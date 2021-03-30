@@ -4,7 +4,7 @@ import QuestionCard from './components/QuestionCard';
 import { fetchQuizQuestions, Difficulty, QuestionState } from './API';
 import { GlobalStyle, Wrapper } from './App.styles';
 import { useAppSelector, useAppDispatch } from './redux/hooks';
-import { setScore } from './redux/quiz'
+import { resetScore, setScore } from './redux/quiz'
 
 export type AnswerState = {
   question: string;
@@ -37,6 +37,7 @@ const App = () => {
 
     setQuestions(newQuestions);
     setUserAnswers([]);
+    dispatch(resetScore());
     setNumber(0);
     setLoading(false);
   }
